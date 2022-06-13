@@ -1,14 +1,13 @@
 bibentry("Manual",
     title="lunar: Lunar Phase & Distance, Seasons and Other Environmental Factors",
     author="Emmanuel Lazaridis",
-    year="2014",
-    note="(Version 0.1-04)",
-    url="http://statistics.lazaridis.eu",
+    year="2022",
+    note="(Version 0.2-01)",
 
     textVersion =
-    paste("Lazaridis, E. (2014). ",
-        "lunar: Lunar Phase & Distance, Seasons and Other Environmental Factors (Version 0.1-04). ",
-        "Available from http://statistics.lazaridis.eu",
+    paste("Lazaridis, E. (2022). ",
+        "lunar: Lunar Phase & Distance, Seasons and Other Environmental Factors (version 0.2-01). ",
+        "Available from CRAN",
         sep=""),
 
     mheader = "To cite lunar in publications use:")

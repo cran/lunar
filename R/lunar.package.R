@@ -11,6 +11,12 @@
 #' @details
 #'   This package is used by the author to calculate covariates
 #'   for studies of lunar effect on health and healthcare.
+#'   It is based on an astronomical calculation that considers
+#'   the moon's phase and its distance from the earth to calculate
+#'   theoretical relative amount of moonlight on any given night.
+#'   The package is not based on luminance data.
+#'   It does not consider local cloud cover, for example, so it
+#'   only provides maximum possible moonlight, not actual moonlight.
 #'
 #'   References forthcoming.
 NULL
@@ -122,11 +128,11 @@ terrestrial.seasons <- c("Winter",
 #'
 #'   Code from project R4MFCL is distributed under the MIT License:
 #'
-#'     \url{http://opensource.org/licenses/mit-license.php}
+#'     \url{https://opensource.org/licenses/mit-license.php}
 #'
 #'   Here is a link to the R4MFCL project:
 #'
-#'     \url{https://code.google.com/p/r4mfcl/}
+#'     \url{https://code.google.com/archive/p/r4mfcl/}
 #'
 #'   The R4MFCL code was modified as follows:
 #'   \itemize{
@@ -151,7 +157,7 @@ terrestrial.seasons <- c("Winter",
 #'
 #'   Adapted originally from Stephen R. Schmitt: Sky & Telescope,
 #'   Astronomical Computing, April 1994 and
-#'   \url{http://mysite.verizon.net/res148h4j/zenosamples/zs_lunarphasecalc.html},
+#'   \url{https://web.archive.org/web/20140716104947/http://mysite.verizon.net/res148h4j/zenosamples/zs_lunarphasecalc.html},
 #'   which references
 #'   Jean Meeus, Astronomical Algorithms. Willmann-Bell, Inc. (1991) 429p.
 #' @param x
@@ -187,7 +193,7 @@ lunar.phase <- function(
   ## 0 => new; pi/2 => first quarter; pi => full; 3*pi/2 => last quarter.
   ## Adapted from Stephen R. Schmitt: Sky & Telescope, Astronomical
   ## Computing, April 1994 and
-  ## http://mysite.verizon.net/res148h4j/zenosamples/zs_lunarphasecalc.html
+  ## https://web.archive.org/web/20140716104947/http://mysite.verizon.net/res148h4j/zenosamples/zs_lunarphasecalc.html
   ## which refs.
   ## Jean Meeus. 1991. Astronomical Algorithms. Willmann-Bell, Inc. 429p.
   ##========================================================================
@@ -198,9 +204,9 @@ lunar.phase <- function(
   ## and Pierre Kleiber of the US National Marine Fisheries Service.
   ##
   ## Code from project R4MFCL is distributed under the MIT License:
-  ##   http://opensource.org/licenses/mit-license.php
+  ##   https://opensource.org/licenses/mit-license.php
   ## Here is a link to the R4MFCL project:
-  ##   https://code.google.com/p/r4mfcl/
+  ##   https://code.google.com/archive/p/r4mfcl/
   ##========================================================================
   ## Modified as follows:
   ##   * changed function name from moonphase() to lunar.phase()
@@ -288,11 +294,11 @@ lunar.phase <- function(
 #'
 #'   Code from project R4MFCL is distributed under the MIT License:
 #'
-#'     \url{http://opensource.org/licenses/mit-license.php}
+#'     \url{https://opensource.org/licenses/mit-license.php}
 #'
 #'   Here is a link to the R4MFCL project:
 #'
-#'     \url{https://code.google.com/p/r4mfcl/}
+#'     \url{https://code.google.com/archive/p/r4mfcl/}
 #' @param x
 #'   A vector of \code{\link[base]{Date}} values.
 #' @param shift
@@ -302,6 +308,7 @@ lunar.phase <- function(
 #' lunar.illumination(as.Date("2004-03-24"))
 #' @keywords lunar moon illumination light
 #' @seealso \code{\link{lunar.illumination.mean}}
+#' @seealso \url{https://stackoverflow.com/questions/71757462/calculate-lunar-illumination-using-the-lunar-package-in-r}
 #' @export
 lunar.illumination <- function(
   x,
@@ -318,9 +325,9 @@ lunar.illumination <- function(
   ## and Pierre Kleiber of the US National Marine Fisheries Service.
   ##
   ## Code from project R4MFCL is distributed under the MIT License:
-  ##   http://opensource.org/licenses/mit-license.php
+  ##   https://opensource.org/licenses/mit-license.php
   ## Here is a link to the R4MFCL project:
-  ##   https://code.google.com/p/r4mfcl/
+  ##   https://code.google.com/archive/p/r4mfcl/
   ##========================================================================
   
   return((1-sin(pi/2-lunar.phase(x, shift = shift)))/2)
@@ -337,7 +344,7 @@ lunar.illumination <- function(
 #'   apogee (at about \eqn{63.8} earth radii).
 #'
 #'   Adapted from Stephen R. Schmitt: Lunar Phase Computation:
-#'   \url{http://mysite.verizon.net/res148h4j/zenosamples/zs_lunarphasecalc.html}.
+#'   \url{https://web.archive.org/web/20140716104947/http://mysite.verizon.net/res148h4j/zenosamples/zs_lunarphasecalc.html},
 #'   Last accessed: 1 September 2014.
 #' @param x
 #'   A vector of \code{\link[base]{Date}} values.
@@ -373,7 +380,7 @@ lunar.distance <- function(
   ## Returns the distance of the moon from the earth on a given date.
   ##========================================================================
   ## Adapted from Stephen R. Schmitt: Lunar Phase Computation:
-  ## http://mysite.verizon.net/res148h4j/zenosamples/zs_lunarphasecalc.html
+  ## https://web.archive.org/web/20140716104947/http://mysite.verizon.net/res148h4j/zenosamples/zs_lunarphasecalc.html
   ##========================================================================
 
   Y <- as.numeric(format(x, "%Y"))
@@ -594,27 +601,44 @@ lunar.distance.mean <- function(
 #'     \item{Autumn:}{21 September through 20 December}
 #'   }
 #'   In leap years spring comes a day early!
+#'   Thanks to Mehis Rohtla for finding an error in the 0.1-04 version code.
 #' @param x
 #'   A vector of \code{\link[base]{Date}} values.
+#' @param cutoffs
+#'   A vector of numbers corresponding to days of the year when
+#'   season labels change.
+#' @param southern.hemisphere
+#'   The season labels follow a northern hemisphere order unless
+#'   this option is set to TRUE.
 #' @examples
-#' terrestrial.season(as.Date("2004-03-24"))
+#' terrestrial.season(as.Date("2017-03-21"))
+#' terrestrial.season(as.Date("2017-03-22"))
+#' terrestrial.season(as.Date("2017-12-20"), southern.hemisphere = TRUE)
+#' terrestrial.season(as.Date("2017-12-21"), southern.hemisphere = TRUE)
 #' @keywords earth season
 #' @seealso \code{\link{terrestrial.seasons}}
 #' @export
-terrestrial.season <- function(
-  x
-) {
-
+terrestrial.season <- function (x, cutoffs = c(80, 172, 263, 354), southern.hemisphere = FALSE)
+{
   # Check that we have a proper Date
-  if(!is(x, "Date")) stop("Must provide a Date.")
+  if(!("Date" %in% class(x))) stop("Must provide a Date.")
   
+  # Check that we have four cutoffs to split the seasons
+  if (length(cutoffs) != 4) stop("Cutoffs must be a vector of length 4.")
+
+  # Code presumes northern hemisphere unless otherwise specified
+  my.terrestrial.seasons <- terrestrial.seasons
+  if(southern.hemisphere)
+    my.terrestrial.seasons <- c(terrestrial.seasons[3:4], terrestrial.seasons[1:2])
+
   my.day <- as.POSIXlt(x)$yday
- 
+
   return(factor(
-      ifelse(my.day < 81, terrestrial.seasons[1],
-          ifelse(my.day < 173, terrestrial.seasons[2],
-              ifelse(my.day < 284, terrestrial.seasons[3],
-                  ifelse(my.day < 355, terrestrial.seasons[4],
-                         terrestrial.seasons[1])))),
-      levels = terrestrial.seasons))
+    ifelse(my.day < cutoffs[1], my.terrestrial.seasons[1],
+      ifelse(my.day < cutoffs[2], my.terrestrial.seasons[2],
+	ifelse(my.day < cutoffs[3], my.terrestrial.seasons[3],
+          ifelse(my.day < cutoffs[4], my.terrestrial.seasons[4],
+                   my.terrestrial.seasons[1])))),
+    levels = my.terrestrial.seasons))
 }
+
